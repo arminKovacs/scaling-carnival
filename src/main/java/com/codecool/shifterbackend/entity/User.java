@@ -1,11 +1,9 @@
 package com.codecool.shifterbackend.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.Set;
@@ -17,9 +15,11 @@ import java.util.Set;
 @Data
 public class User {
     @Id
+    @GeneratedValue
     private Long id;
     private String username;
     private String password;
+    private String email;
     @OneToMany(mappedBy = "userId")
     private Set<Shift> shifts;
 }
