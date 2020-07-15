@@ -5,9 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -20,6 +20,6 @@ public class User {
     private Long id;
     private String username;
     private String password;
-    @ElementCollection
+    @OneToMany(mappedBy = "userId")
     private Set<Shift> shifts;
 }
