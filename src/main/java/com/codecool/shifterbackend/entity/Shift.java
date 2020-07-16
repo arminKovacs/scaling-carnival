@@ -30,5 +30,5 @@ public class Shift {
     @ManyToOne
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private ShifterUser shifterUserId;
+    private ShifterUser shifterUser;
 }

@@ -7,8 +7,8 @@ import com.codecool.shifterbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ShiftService {
@@ -36,13 +36,14 @@ public class ShiftService {
         shiftRepository.save(newShift);
     }
 
-    public void assignShiftToUser(String shiftName, String userName){
-        ShifterUser user = userRepository.findShifterUserByUsername(userName);
-        Shift shift = shiftRepository.findShiftByName(shiftName);
+    @Transactional
+    public void assignShiftToUser(Long shiftId, Long userId){
+        ShifterUser user = userRepository.getOne(userId);
+        Shift shift = shiftRepository.getOne(shiftId);
+        shift.setShifterUser(user);
         user.addToShifts(shift);
+        shiftRepository.save(shift);
+        userRepository.save(user);
     }
 
-    public void saveShits(List<Shift> shifts) {
-        shiftRepository.saveAll(shifts);
-    }
 }

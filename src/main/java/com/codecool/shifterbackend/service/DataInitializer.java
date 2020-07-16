@@ -1,14 +1,11 @@
 package com.codecool.shifterbackend.service;
 
-import com.codecool.shifterbackend.entity.Shift;
 import com.codecool.shifterbackend.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 @Configuration
@@ -21,33 +18,15 @@ public class DataInitializer {
     @Bean
     public CommandLineRunner init(){
         return args -> {
-            Shift morning = Shift.builder()
-                    .name("Morning shift")
-                    .startTime("06:00:00")
-                    .endTime("14:00:00")
-                    .startDate("2020-07-20")
-                    .endDate("2020-07-22")
-                    .build();
+            shiftService.registerNewShift("Morning", "06:00:00", "14:00:00",
+                    "2020-07-20", "2020-07-22");
 
-            Shift afternoon = Shift.builder()
-                    .name("Afternoon shift")
-                    .startTime("14:00:00")
-                    .endTime("22:00:00")
-                    .startDate("2020-07-20")
-                    .endDate("2020-07-22")
-                    .build();
+            shiftService.registerNewShift("Afternoon", "14:00:00", "22:00:00",
+                    "2020-07-20", "2020-07-22");
 
-            Shift evening = Shift.builder()
-                    .name("Evening shift")
-                    .startTime("22:00:00")
-                    .endTime("06:00:00")
-                    .startDate("2020-07-20")
-                    .endDate("2020-07-22")
-                    .build();
+            shiftService.registerNewShift("Evening", "22:00:00", "06:00:00",
+                    "2020-07-20", "2020-07-22");
 
-            List<Shift> shiftList = Arrays.asList(morning, afternoon, evening);
-
-            shiftService.saveShits(shiftList);
 
             userService.register("Taki bá", "taki", "István",
                                                     "Takács", "taki@freemail.hu", Set.of(Role.USER));
@@ -62,6 +41,9 @@ public class DataInitializer {
                                                     "Takács", "lenke@freemail.hu",
                                                     Set.of(Role.USER, Role.SUPERVISOR));
 
+            shiftService.assignShiftToUser(1L, 4L);
+            shiftService.assignShiftToUser(2L, 5L);
+            shiftService.assignShiftToUser(3L, 6L);
         };
     }
 }

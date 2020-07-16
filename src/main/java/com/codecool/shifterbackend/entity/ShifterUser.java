@@ -25,7 +25,7 @@ public class ShifterUser {
     private String firstName;
     private String lastName;
 
-    @OneToMany(mappedBy = "shifterUserId")
+    @OneToMany(mappedBy = "shifterUser")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @Singular
