@@ -26,5 +26,5 @@ public class Shift {
     private String endDate;
     @ManyToOne
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    private User userId;
+    private ShifterUser shifterUserId;
 }

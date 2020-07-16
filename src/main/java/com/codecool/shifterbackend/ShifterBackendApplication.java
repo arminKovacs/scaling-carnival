@@ -1,7 +1,7 @@
 package com.codecool.shifterbackend;
 
 import com.codecool.shifterbackend.entity.Shift;
-import com.codecool.shifterbackend.entity.User;
+import com.codecool.shifterbackend.entity.ShifterUser;
 import com.codecool.shifterbackend.repository.ShiftRepository;
 import com.codecool.shifterbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -57,24 +56,24 @@ public class ShifterBackendApplication {
 
             Set<Shift> shiftList = new HashSet<>(Arrays.asList(morning, afternoon, evening));
 
-            User taki = User.builder()
+            ShifterUser taki = ShifterUser.builder()
                     .username("Taki Bá")
                     .email("taki@freemail.hu")
                     .shifts(shiftList)
                     .build();
 
-            User feri = User.builder()
+            ShifterUser feri = ShifterUser.builder()
                     .username("Vágási Feri")
                     .email("feri@freemail.hu")
                     .build();
 
-            User gabor = User.builder()
+            ShifterUser gabor = ShifterUser.builder()
                     .username("Gábor Gábor")
                     .email("gg@freemail.hu")
                     .build();
 
             userRepository.saveAll(Arrays.asList(taki, feri, gabor));
-            shiftList.forEach(shift -> shift.setUserId(taki));
+            shiftList.forEach(shift -> shift.setShifterUserId(taki));
             shiftRepository.saveAll(shiftList);
         };
     }

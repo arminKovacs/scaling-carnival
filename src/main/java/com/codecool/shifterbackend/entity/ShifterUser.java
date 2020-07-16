@@ -1,11 +1,9 @@
 package com.codecool.shifterbackend.entity;
 
+import com.codecool.shifterbackend.model.Role;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -13,13 +11,15 @@ import java.util.Set;
 @Entity
 @Builder
 @Data
-public class User {
+public class ShifterUser {
     @Id
     @GeneratedValue
     private Long id;
     private String username;
     private String password;
     private String email;
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "shifterUserId")
     private Set<Shift> shifts;
+    @ElementCollection
+    private Set<Role> roles;
 }
