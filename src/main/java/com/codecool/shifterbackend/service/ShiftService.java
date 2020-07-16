@@ -16,4 +16,17 @@ public class ShiftService {
     public List<Shift> getAll() {
         return shiftRepository.findAll();
     }
+
+    public void registerNewShift(String name, String startTime, String endTime, String startDate, String endDate){
+        Shift newShift = Shift.builder()
+                .name(name)
+                .startTime(startTime)
+                .endTime(endTime)
+                .startDate(startDate)
+                .endDate(endTime)
+                .build();
+        shiftRepository.save(newShift);
+    }
+
+
 }

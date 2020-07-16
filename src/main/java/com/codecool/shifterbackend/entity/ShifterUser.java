@@ -20,8 +20,10 @@ public class ShifterUser {
     private Long id;
 
     private String username;
-    private String password;
+    private String hashedPassword;
     private String email;
+    private String firstName;
+    private String lastName;
 
     @OneToMany(mappedBy = "shifterUserId")
     @EqualsAndHashCode.Exclude
@@ -29,5 +31,6 @@ public class ShifterUser {
     private Set<Shift> shifts;
 
     @ElementCollection
+    @Singular
     private Set<Role> roles;
 }

@@ -28,7 +28,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         return new User(
                 shifterUser.getUsername(),
-                shifterUser.getPassword(),
+                shifterUser.getHashedPassword(),
                 shifterUser.getRoles()
                         .stream()
                         .map(role -> new SimpleGrantedAuthority("ROLE_" + role))

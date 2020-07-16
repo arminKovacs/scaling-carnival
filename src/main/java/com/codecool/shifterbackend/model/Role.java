@@ -1,5 +1,5 @@
 package com.codecool.shifterbackend.model;
 
 public enum Role {
-    USER, ADMIN;
+    USER, SUPERVISOR, ADMIN;
 }
