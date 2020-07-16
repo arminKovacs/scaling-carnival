@@ -28,9 +28,14 @@ public class ShifterUser {
     @OneToMany(mappedBy = "shifterUserId")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @Singular
     private Set<Shift> shifts;
 
     @ElementCollection
     @Singular
     private Set<Role> roles;
+
+    public void addToShifts(Shift shift) {
+        this.shifts.add(shift);
+    }
 }

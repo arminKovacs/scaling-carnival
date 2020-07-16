@@ -1,7 +1,6 @@
 package com.codecool.shifterbackend.service;
 
 import com.codecool.shifterbackend.entity.Shift;
-import com.codecool.shifterbackend.entity.ShifterUser;
 import com.codecool.shifterbackend.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -9,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Configuration
@@ -46,19 +45,23 @@ public class DataInitializer {
                     .endDate("2020-07-22")
                     .build();
 
-            Set<Shift> shiftList = new HashSet<>(Arrays.asList(morning, afternoon, evening));
+            List<Shift> shiftList = Arrays.asList(morning, afternoon, evening);
 
-            ShifterUser taki = userService.register("Taki bá", "taki", "István",
+            shiftService.saveShits(shiftList);
+
+            userService.register("Taki bá", "taki", "István",
                                                     "Takács", "taki@freemail.hu", Set.of(Role.USER));
 
-            ShifterUser feri = userService.register("Gazadréti Betyár", "feri", "Ferenc",
+            userService.register("Gazadréti Betyár", "feri", "Ferenc",
                                                     "Vágási", "feri@freemail.hu", Set.of(Role.USER));
 
-            ShifterUser gabor = userService.register("OG GG", "gabor", "Gábor",
-                                                "Gábor", "gg@freemail.hu", Set.of(Role.USER));
+            userService.register("OG GG", "gabor", "Gábor",
+                                                    "Gábor", "gg@freemail.hu", Set.of(Role.USER));
 
-            shiftList.forEach(shift -> shift.setShifterUserId(taki));
-            //shiftRepository.saveAll(shiftList);
+            userService.register("Lenke néni", "lenke", "Lenke",
+                                                    "Takács", "lenke@freemail.hu",
+                                                    Set.of(Role.USER, Role.SUPERVISOR));
+
         };
     }
 }
