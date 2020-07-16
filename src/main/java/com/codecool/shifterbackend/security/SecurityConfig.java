@@ -24,7 +24,7 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserDetailServiceImpl userDetailService;
     private final JwtRequestFilter jwtRequestFilter;
 
     @Bean
@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService)
+                .userDetailsService(userDetailService)
                 .passwordEncoder(passwordEncoder());
     }
 
@@ -56,8 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/signup").permitAll()
-                .antMatchers(HttpMethod.GET,"/user/allusers").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE,"/user/delete").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/users").permitAll()
+                .antMatchers(HttpMethod.GET,"/user/1").permitAll()
+                //.antMatchers(HttpMethod.DELETE,"/user/delete").hasRole("ADMIN")
                 .anyRequest().permitAll();
     }
 

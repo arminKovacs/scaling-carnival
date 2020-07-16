@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @Builder
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Shift {
 
     @Id
@@ -25,6 +26,7 @@ public class Shift {
     private String startDate;
     private String endDate;
     @ManyToOne
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private ShifterUser shifterUserId;
 }

@@ -1,5 +1,6 @@
 package com.codecool.shifterbackend.controller;
 
+import com.codecool.shifterbackend.controller.dto.UserCredentials;
 import com.codecool.shifterbackend.entity.ShifterUser;
 import com.codecool.shifterbackend.security.JwtUtil;
 import com.codecool.shifterbackend.service.UserService;
@@ -27,6 +28,7 @@ public class UserController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Autowired
     private JwtUtil jwtUtil;
     public static final String TOKEN = "token";
@@ -39,41 +41,40 @@ public class UserController {
         return userService.getAll();
     }
 
-    @GetMapping("/{userId}")
-    private ShifterUser getUserById(@RequestParam Long userId) {
-        return userService.returnById(userId);
+    @GetMapping("user/{shifterUserId}")
+    private ShifterUser getUserById(@PathVariable Long shifterUserId) {
+        return userService.returnById(shifterUserId);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserCredentials tripUser, HttpServletResponse response, HttpServletRequest request) {
+    public ResponseEntity<String> login(@RequestBody UserCredentials shifterUser, HttpServletResponse response, HttpServletRequest request) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                tripUser.getUsername(),
-                tripUser.getPassword()
+                shifterUser.getUsername(),
+                shifterUser.getPassword()
         ));
         String jwtToken = jwtUtil.generateToken(authentication);
         addTokenToCookie(response, jwtToken);
-        return ResponseEntity.ok().body(tripUser.getUsername());
+        return ResponseEntity.ok().body(shifterUser.getUsername());
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody UserCredentials tripUser, HttpServletResponse response) {
-        tripUserService.registerAllData(tripUser);
+    public ResponseEntity<String> signup(@RequestBody UserCredentials shifterUser, HttpServletResponse response) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                tripUser.getUsername(),
-                tripUser.getPassword()
+                shifterUser.getUsername(),
+                shifterUser.getPassword()
         ));
         String jwtToken = jwtUtil.generateToken(authentication);
         addTokenToCookie(response, jwtToken);
-        return ResponseEntity.status(HttpStatus.CREATED).body(tripUser.getUsername());
+        return ResponseEntity.status(HttpStatus.CREATED).body(shifterUser.getUsername());
     }
 
     private void addTokenToCookie(HttpServletResponse response, String token) {
         ResponseCookie cookie = ResponseCookie.from("token", token)
-                .domain("localhost") // should be parameterized
-                .sameSite("Strict")  // CSRF
+                .domain("localhost")
+                .sameSite("Strict")
 //                .secure(true)
                 .maxAge(Duration.ofHours(24))
-                .httpOnly(true)      // XSS
+                .httpOnly(true)
                 .path("/")
                 .build();
         response.addHeader("Set-Cookie", cookie.toString());
@@ -87,8 +88,8 @@ public class UserController {
 
     private void createLogoutCookie(HttpServletResponse response) {
         ResponseCookie cookie = ResponseCookie.from("token", "")
-                .domain("localhost") // should be parameterized
-                .sameSite("Strict")  // CSRF
+                .domain("localhost")
+                .sameSite("Strict")
 //                .secure(true)
                 .maxAge(0)
                 .httpOnly(true)      // XSS
