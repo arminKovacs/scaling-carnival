@@ -1,34 +1,27 @@
 package com.codecool.shifterbackend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Shift {
-
     @Id
     @GeneratedValue
-    private Long id;
+    protected Long id;
 
-    private String name;
-    private String startTime;
-    private String endTime;
-    private String startDate;
-    private String endDate;
-
-    @ManyToOne
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private ShifterUser shifterUser;
+    protected String name;
+    protected String startTime;
+    protected String endTime;
 }

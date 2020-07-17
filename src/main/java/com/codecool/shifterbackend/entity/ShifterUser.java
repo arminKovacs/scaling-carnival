@@ -29,13 +29,13 @@ public class ShifterUser {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @Singular
-    private Set<Shift> shifts;
+    private Set<WorkerShift> workerShifts;
 
     @ElementCollection
     @Singular
     private Set<Role> roles;
 
-    public void addToShifts(Shift shift) {
-        this.shifts.add(shift);
+    public void addToShifts(WorkerShift workerShift) {
+        this.workerShifts.add(workerShift);
     }
 }
