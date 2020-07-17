@@ -24,7 +24,6 @@ public class DataInitializer {
 
             shiftService.registerNewShift("Evening", "22:00:00", "06:00:00");
 
-
             userService.register("Taki bá", "taki", "István",
                     "Takács", "taki@freemail.hu", Set.of(Role.USER));
 

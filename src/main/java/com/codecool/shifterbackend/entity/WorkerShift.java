@@ -18,7 +18,9 @@ import javax.persistence.ManyToOne;
 public class WorkerShift extends Shift {
 
     public WorkerShift(Shift shift,String startDate, String endDate, ShifterUser shifterUser) {
-        super(shift.id, shift.name, shift.startTime, shift.endTime);
+        this.name = shift.getName();
+        this.startTime = shift.getStartTime();
+        this.endTime = shift.getEndTime();
         this.startDate = startDate;
         this.endDate = endDate;
         this.shifterUser = shifterUser;
