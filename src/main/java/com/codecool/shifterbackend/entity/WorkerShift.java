@@ -17,6 +17,13 @@ import javax.persistence.ManyToOne;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class WorkerShift extends Shift {
 
+    public WorkerShift(Shift shift,String startDate, String endDate, ShifterUser shifterUser) {
+        super(shift.id, shift.name, shift.startTime, shift.endTime);
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.shifterUser = shifterUser;
+    }
+
     private String startDate;
     private String endDate;
 
