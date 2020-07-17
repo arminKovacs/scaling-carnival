@@ -57,6 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/signup").permitAll()
                 .antMatchers(HttpMethod.GET,"/users").permitAll()
+                .antMatchers(HttpMethod.GET,"/shifts").permitAll()
+                .antMatchers(HttpMethod.GET,"/worker-shifts").permitAll()
                 .antMatchers(HttpMethod.GET,"/user/{userId:[\\d+]}").permitAll()
                 //.antMatchers(HttpMethod.DELETE,"/user/delete").hasRole("ADMIN")
                 .anyRequest().permitAll();
