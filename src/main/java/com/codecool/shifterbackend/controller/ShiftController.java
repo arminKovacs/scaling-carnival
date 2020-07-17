@@ -1,13 +1,13 @@
 package com.codecool.shifterbackend.controller;
 
+import com.codecool.shifterbackend.controller.dto.ShiftAssignmentDetails;
 import com.codecool.shifterbackend.entity.Shift;
 import com.codecool.shifterbackend.entity.WorkerShift;
 import com.codecool.shifterbackend.service.ShiftService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -24,6 +24,12 @@ public class ShiftController {
 
     @GetMapping("/worker-shifts")
     private List<WorkerShift> getAllWorkerShifts() {
+        return shiftService.getAllWorkerShifts();
+    }
+
+    @PostMapping("/assign-shift")
+    private List<WorkerShift> assignShiftToWorker(@RequestBody ShiftAssignmentDetails assignDetails){
+        System.out.println(assignDetails);
         return shiftService.getAllWorkerShifts();
     }
 }
