@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ShiftAssignmentDetails {
-    private Long workerId;
-    private Long shiftId;
+    private String workerId;
+    private String shiftId;
     private String startDate;
     private String endDate;
 }

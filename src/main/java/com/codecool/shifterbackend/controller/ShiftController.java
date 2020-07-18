@@ -7,7 +7,6 @@ import com.codecool.shifterbackend.service.ShiftService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -28,8 +27,8 @@ public class ShiftController {
     }
 
     @PostMapping("/assign-shift")
-    private List<WorkerShift> assignShiftToWorker(@RequestBody ShiftAssignmentDetails assignDetails){
-        System.out.println(assignDetails);
+    private List<WorkerShift> assignShiftToWorker(@RequestBody ShiftAssignmentDetails shiftAssignmentDetails){
+        System.out.println(shiftAssignmentDetails);
         return shiftService.getAllWorkerShifts();
     }
 }
