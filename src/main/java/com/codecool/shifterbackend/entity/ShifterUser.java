@@ -2,6 +2,7 @@ package com.codecool.shifterbackend.entity;
 
 import com.codecool.shifterbackend.model.Role;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
@@ -29,6 +30,7 @@ public class ShifterUser {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @Singular
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Set<WorkerShift> workerShifts;
 
     @ElementCollection

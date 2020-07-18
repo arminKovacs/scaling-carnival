@@ -27,8 +27,13 @@ public class ShiftController {
     }
 
     @PostMapping("/assign-shift")
-    private List<WorkerShift> assignShiftToWorker(@RequestBody ShiftAssignmentDetails shiftAssignmentDetails){
-        System.out.println(shiftAssignmentDetails);
+    private List<WorkerShift> assignShiftToWorker(@RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
+        shiftService.assignShiftToUser(
+                shiftAssignmentDetails.getShiftId(),
+                shiftAssignmentDetails.getWorkerId(),
+                shiftAssignmentDetails.getStartDate(),
+                shiftAssignmentDetails.getEndDate()
+        );
         return shiftService.getAllWorkerShifts();
     }
 }

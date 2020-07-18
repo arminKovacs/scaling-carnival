@@ -1,6 +1,7 @@
 package com.codecool.shifterbackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -32,5 +33,6 @@ public class WorkerShift extends Shift {
     @ManyToOne
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private ShifterUser shifterUser;
 }
