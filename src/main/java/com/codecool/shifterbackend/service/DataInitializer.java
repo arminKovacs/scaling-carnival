@@ -24,6 +24,8 @@ public class DataInitializer {
 
             shiftService.registerNewShift("Evening", "22:00:00", "06:00:00");
 
+            shiftService.registerNewShift("Holiday", "00:00:00", "24:00:00");
+
             userService.register("Taki bá", "taki", "István",
                     "Takács", "taki@freemail.hu", Set.of(Role.USER));
 
@@ -37,9 +39,9 @@ public class DataInitializer {
                     "Takács", "lenke@freemail.hu",
                     Set.of(Role.USER, Role.SUPERVISOR));
 
-            shiftService.assignShiftToUser(1L, 4L, "2020-07-20", "2020-07-23");
-            shiftService.assignShiftToUser(2L, 5L, "2020-07-20", "2020-07-23");
-            shiftService.assignShiftToUser(3L, 6L, "2020-07-20", "2020-07-23");
+            shiftService.assignShiftToUser(1L, 5L, "2020-07-20", "2020-07-23");
+            shiftService.assignShiftToUser(2L, 6L, "2020-07-20", "2020-07-23");
+            shiftService.assignShiftToUser(3L, 7L, "2020-07-20", "2020-07-23");
         };
     }
 }
