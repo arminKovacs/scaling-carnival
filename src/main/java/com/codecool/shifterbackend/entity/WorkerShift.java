@@ -1,13 +1,12 @@
 package com.codecool.shifterbackend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -26,7 +25,9 @@ public class WorkerShift extends Shift {
         this.shifterUser = shifterUser;
     }
 
+    @NotBlank(message = "Please add a start date!")
     private String startDate;
+    @NotBlank(message = "Please add an end date!")
     private String endDate;
 
     @ManyToOne
@@ -34,4 +35,6 @@ public class WorkerShift extends Shift {
     @ToString.Exclude
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private ShifterUser shifterUser;
+
+
 }

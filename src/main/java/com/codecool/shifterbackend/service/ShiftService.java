@@ -38,16 +38,37 @@ public class ShiftService {
     }
 
     @Transactional
-    public void assignShiftToUser(Long shiftId, Long userId, String startDate, String endDate) {
+    public String assignShiftToUser(Long shiftId, Long userId, String startDate, String endDate) {
         ShifterUser user = userRepository.getOne(userId);
         Shift shift = shiftRepository.getOne(shiftId);
+        if (alreadyAssigned(user, shift, startDate, endDate)){
+            return "Shift is already assigned to " + user.getUsername() + "!";
+        }
         WorkerShift workerShift = new WorkerShift(shift, startDate, endDate, user);
         user.addToShifts(workerShift);
         workerShiftRepository.save(workerShift);
         userRepository.save(user);
+        return "Shift has been assigned to " + user.getUsername() + "!";
     }
 
     public List<WorkerShift> getAllWorkerShifts() {
         return workerShiftRepository.findAll();
+    }
+
+    public Boolean alreadyAssigned(ShifterUser user, Shift shift, String startDate, String endDate) {
+        for (WorkerShift workerShift : user.getWorkerShifts()){
+            if (workerShift.getStartDate().equals(startDate) &&
+                workerShift.getEndDate().equals(endDate) &&
+                workerShift.getStartTime().equals(shift.getStartTime()) &&
+                workerShift.getEndTime().equals(shift.getEndTime())
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addNewShiftToRepository(Shift shift) {
+        shiftRepository.save(shift);
     }
 }
