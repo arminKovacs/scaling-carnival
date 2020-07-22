@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -55,17 +56,26 @@ public class ShiftService {
         return workerShiftRepository.findAll();
     }
 
-    public Boolean alreadyAssigned(ShifterUser user, Shift shift, String startDate, String endDate) {
-        for (WorkerShift workerShift : user.getWorkerShifts()){
-            if (workerShift.getStartDate().equals(startDate) &&
-                workerShift.getEndDate().equals(endDate) &&
-                workerShift.getStartTime().equals(shift.getStartTime()) &&
-                workerShift.getEndTime().equals(shift.getEndTime())
+    private boolean alreadyAssigned(ShifterUser user, Shift shift, String startDate, String endDate) {
+        for (WorkerShift workerShift : user.getWorkerShifts()) {
+            if (workerShift.getName().equals(shift.getName()) &&
+                dateInRange(workerShift, startDate) ||
+                dateInRange(workerShift, endDate)
             ) {
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean dateInRange(WorkerShift workerShift, String dateToCheck){
+        LocalDate workShiftStartDate = LocalDate.parse(workerShift.getStartDate());
+        LocalDate workShiftEndDate = LocalDate.parse(workerShift.getEndDate());
+        LocalDate date = LocalDate.parse(dateToCheck);
+        if (date.equals(workShiftEndDate)) {
+            return true;
+        }
+        return !date.isBefore(workShiftStartDate) && date.isBefore(workShiftEndDate);
     }
 
     public void addNewShiftToRepository(Shift shift) {

@@ -2,7 +2,6 @@ package com.codecool.shifterbackend.controller;
 
 import com.codecool.shifterbackend.controller.dto.ShiftAssignmentDetails;
 import com.codecool.shifterbackend.entity.Shift;
-import com.codecool.shifterbackend.entity.WorkerShift;
 import com.codecool.shifterbackend.service.ShiftService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -34,14 +32,14 @@ public class ShiftController {
     }
 
     @PostMapping("/assign-shift")
-    private ResponseEntity<List<WorkerShift>> assignShiftToWorker(@RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
+    private ResponseEntity<Object> assignShiftToWorker(@RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
         if(!shiftService.assignShiftToUser(
                 shiftAssignmentDetails.getShiftId(),
                 shiftAssignmentDetails.getWorkerId(),
                 shiftAssignmentDetails.getStartDate(),
                 shiftAssignmentDetails.getEndDate()
-        )) {
-
+        )){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return ResponseEntity.ok(shiftService.getAllWorkerShifts());
     }
