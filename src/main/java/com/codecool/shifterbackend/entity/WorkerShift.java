@@ -25,9 +25,7 @@ public class WorkerShift extends Shift {
         this.shifterUser = shifterUser;
     }
 
-    @NotBlank(message = "Please add a start date!")
     private String startDate;
-    @NotBlank(message = "Please add an end date!")
     private String endDate;
 
     @ManyToOne

@@ -24,24 +24,26 @@ public class ShiftController {
     private ShiftService shiftService;
 
     @GetMapping("/shifts")
-    private List<Shift> getAllShifts() {
-        return shiftService.getAllBaseShifts();
+    private ResponseEntity<Object> getAllShifts() {
+        return ResponseEntity.ok(shiftService.getAllBaseShifts());
     }
 
     @GetMapping("/worker-shifts")
-    private List<WorkerShift> getAllWorkerShifts() {
-        return shiftService.getAllWorkerShifts();
+    private ResponseEntity<Object> getAllWorkerShifts() {
+        return ResponseEntity.ok(shiftService.getAllWorkerShifts());
     }
 
     @PostMapping("/assign-shift")
-    private List<WorkerShift> assignShiftToWorker(@RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
-        shiftService.assignShiftToUser(
+    private ResponseEntity<List<WorkerShift>> assignShiftToWorker(@RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
+        if(!shiftService.assignShiftToUser(
                 shiftAssignmentDetails.getShiftId(),
                 shiftAssignmentDetails.getWorkerId(),
                 shiftAssignmentDetails.getStartDate(),
                 shiftAssignmentDetails.getEndDate()
-        );
-        return shiftService.getAllWorkerShifts();
+        )) {
+
+        }
+        return ResponseEntity.ok(shiftService.getAllWorkerShifts());
     }
 
     @PostMapping("/shifts")
