@@ -33,3 +33,4 @@ build/
 .vscode/
 
 shifter-db.lock.db
+shifter-db.trace.db
