@@ -26,12 +26,18 @@ public class ShiftController {
         return ResponseEntity.ok(shiftService.getAllBaseShifts());
     }
 
+    @PostMapping("/shifts")
+    private ResponseEntity<String> createNewShift(@Valid @RequestBody Shift shift){
+        shiftService.addNewShiftToRepository(shift);
+        return ResponseEntity.ok("Shift created");
+    }
+
     @GetMapping("/worker-shifts")
     private ResponseEntity<Object> getAllWorkerShifts() {
         return ResponseEntity.ok(shiftService.getAllWorkerShifts());
     }
 
-    @PostMapping("/assign-shift")
+    @PostMapping("/worker-shifts")
     private ResponseEntity<Object> assignShiftToWorker(@RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
         if(!shiftService.assignShiftToUser(
                 shiftAssignmentDetails.getShiftId(),
@@ -44,10 +50,9 @@ public class ShiftController {
         return ResponseEntity.ok(shiftService.getAllWorkerShifts());
     }
 
-    @PostMapping("/shifts")
-    private ResponseEntity<String> createNewShift(@Valid @RequestBody Shift shift){
-        shiftService.addNewShiftToRepository(shift);
-        return ResponseEntity.ok("Shift created");
+    @DeleteMapping("/worker-shifts")
+    private ResponseEntity<Object> deleteWorkerShift(){
+        return null;
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
