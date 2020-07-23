@@ -58,7 +58,8 @@ public class ShiftService {
         ShifterUser user = userRepository.getOne(userId);
         Shift shift = shiftRepository.getOne(shiftAssignmentDetails.getShiftId());
         for (WorkerShift workerShift : user.getWorkerShifts()) {
-            if (workerShift.getName().equals(shift.getName()) &&
+            if (workerShift.getName().equals(shift.getName()) ||
+                workerShift.getName().equals("Holiday") &&
                 dateInRange(workerShift, shiftAssignmentDetails.getStartDate()) ||
                 dateInRange(workerShift, shiftAssignmentDetails.getEndDate())
             ) {
