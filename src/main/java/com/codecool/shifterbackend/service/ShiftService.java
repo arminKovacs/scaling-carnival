@@ -59,6 +59,7 @@ public class ShiftService {
     private boolean alreadyAssigned(ShifterUser user, Shift shift, String startDate, String endDate) {
         for (WorkerShift workerShift : user.getWorkerShifts()) {
             if (workerShift.getName().equals(shift.getName()) &&
+                newDateIsBeforeToday(startDate, endDate) ||
                 dateInRange(workerShift, startDate) ||
                 dateInRange(workerShift, endDate)
             ) {
@@ -72,13 +73,17 @@ public class ShiftService {
         LocalDate workShiftStartDate = LocalDate.parse(workerShift.getStartDate());
         LocalDate workShiftEndDate = LocalDate.parse(workerShift.getEndDate());
         LocalDate date = LocalDate.parse(dateToCheck);
-        if (date.equals(workShiftEndDate)) {
-            return true;
-        }
-        return !date.isBefore(workShiftStartDate) && date.isBefore(workShiftEndDate);
+        return !date.isBefore(workShiftStartDate) && !date.isAfter(workShiftEndDate);
     }
 
     public void addNewShiftToRepository(Shift shift) {
         shiftRepository.save(shift);
+    }
+
+    private boolean newDateIsBeforeToday(String startDate, String endDate){
+        LocalDate today = LocalDate.now();
+        LocalDate newStartDate = LocalDate.parse(startDate);
+        LocalDate newEndDate = LocalDate.parse(endDate);
+        return newStartDate.isBefore(today) || newEndDate.isBefore(today);
     }
 }
