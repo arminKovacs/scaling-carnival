@@ -86,4 +86,8 @@ public class ShiftService {
         LocalDate newEndDate = LocalDate.parse(shiftAssignmentDetails.getEndDate());
         return newStartDate.isBefore(today) || newEndDate.isBefore(today);
     }
+
+    public void deleteWorkerShift(Long workerShiftId) {
+        workerShiftRepository.deleteById(workerShiftId);
+    }
 }

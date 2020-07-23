@@ -50,7 +50,8 @@ public class ShiftController {
 
     @DeleteMapping("/worker-shifts/{workerShiftId}")
     private ResponseEntity<Object> deleteWorkerShift(@PathVariable Long workerShiftId){
-        return null;
+        shiftService.deleteWorkerShift(workerShiftId);
+        return ResponseEntity.ok(shiftService.getAllWorkerShifts());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
