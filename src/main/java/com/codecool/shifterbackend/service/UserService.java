@@ -40,6 +40,7 @@ public class UserService {
                         .lastName(lastName)
                         .email(email)
                         .roles(roles)
+                        .calendarColor(ShifterUser.generateColor())
                         .build()
         );
     }

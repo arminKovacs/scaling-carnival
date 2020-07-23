@@ -23,6 +23,7 @@ public class ShifterUser {
     private String email;
     private String firstName;
     private String lastName;
+    private String calendarColor;
 
     @OneToMany(mappedBy = "shifterUser")
     @EqualsAndHashCode.Exclude
@@ -38,5 +39,14 @@ public class ShifterUser {
 
     public void addToShifts(WorkerShift workerShift) {
         this.workerShifts.add(workerShift);
+    }
+
+    public static String generateColor(){
+        String letters = "0123456789ABCDEF";
+        StringBuilder color = new StringBuilder("#");
+        for (int i = 0; i < 6; i++) {
+            color.append(letters.split("")[(int) Math.floor(Math.random() * 16)]);
+        }
+        return color.toString();
     }
 }
