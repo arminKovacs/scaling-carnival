@@ -37,16 +37,14 @@ public class ShiftController {
         return ResponseEntity.ok(shiftService.getAllWorkerShifts());
     }
 
-    @PostMapping("/worker-shifts")
-    private ResponseEntity<Object> assignShiftToWorker(@RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
-        if(!shiftService.assignShiftToUser(
-                shiftAssignmentDetails.getShiftId(),
-                shiftAssignmentDetails.getWorkerId(),
-                shiftAssignmentDetails.getStartDate(),
-                shiftAssignmentDetails.getEndDate()
-        )){
+    @PostMapping("/worker-shifts/{workerId}")
+    private ResponseEntity<Object> assignShiftToWorker(@PathVariable Long workerId,
+                                                       @RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
+        if (shiftService.newDateIsBeforeToday(shiftAssignmentDetails) ||
+            shiftService.shiftIsAlreadyAssigned(workerId, shiftAssignmentDetails)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+        shiftService.assignShiftToUser(workerId, shiftAssignmentDetails);
         return ResponseEntity.ok(shiftService.getAllWorkerShifts());
     }
 

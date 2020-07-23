@@ -1,5 +1,6 @@
 package com.codecool.shifterbackend.service;
 
+import com.codecool.shifterbackend.controller.dto.ShiftAssignmentDetails;
 import com.codecool.shifterbackend.entity.Shift;
 import com.codecool.shifterbackend.entity.WorkerShift;
 import com.codecool.shifterbackend.entity.ShifterUser;
@@ -39,29 +40,27 @@ public class ShiftService {
     }
 
     @Transactional
-    public boolean assignShiftToUser(Long shiftId, Long userId, String startDate, String endDate) {
+    public void assignShiftToUser(Long userId, ShiftAssignmentDetails shiftAssignmentDetails) {
         ShifterUser user = userRepository.getOne(userId);
-        Shift shift = shiftRepository.getOne(shiftId);
-        if (alreadyAssigned(user, shift, startDate, endDate)){
-            return false;
-        }
-        WorkerShift workerShift = new WorkerShift(shift, startDate, endDate, user);
+        Shift shift = shiftRepository.getOne(shiftAssignmentDetails.getShiftId());
+        WorkerShift workerShift = new WorkerShift(shift, shiftAssignmentDetails.getStartDate(),
+                shiftAssignmentDetails.getEndDate(), user);
         user.addToShifts(workerShift);
         workerShiftRepository.save(workerShift);
         userRepository.save(user);
-        return true;
     }
 
     public List<WorkerShift> getAllWorkerShifts() {
         return workerShiftRepository.findAll();
     }
 
-    private boolean alreadyAssigned(ShifterUser user, Shift shift, String startDate, String endDate) {
+    public boolean shiftIsAlreadyAssigned(Long userId, ShiftAssignmentDetails shiftAssignmentDetails) {
+        ShifterUser user = userRepository.getOne(userId);
+        Shift shift = shiftRepository.getOne(shiftAssignmentDetails.getShiftId());
         for (WorkerShift workerShift : user.getWorkerShifts()) {
             if (workerShift.getName().equals(shift.getName()) &&
-                newDateIsBeforeToday(startDate, endDate) ||
-                dateInRange(workerShift, startDate) ||
-                dateInRange(workerShift, endDate)
+                dateInRange(workerShift, shiftAssignmentDetails.getStartDate()) ||
+                dateInRange(workerShift, shiftAssignmentDetails.getEndDate())
             ) {
                 return true;
             }
@@ -80,10 +79,10 @@ public class ShiftService {
         shiftRepository.save(shift);
     }
 
-    private boolean newDateIsBeforeToday(String startDate, String endDate){
+    public boolean newDateIsBeforeToday(ShiftAssignmentDetails shiftAssignmentDetails){
         LocalDate today = LocalDate.now();
-        LocalDate newStartDate = LocalDate.parse(startDate);
-        LocalDate newEndDate = LocalDate.parse(endDate);
+        LocalDate newStartDate = LocalDate.parse(shiftAssignmentDetails.getStartDate());
+        LocalDate newEndDate = LocalDate.parse(shiftAssignmentDetails.getEndDate());
         return newStartDate.isBefore(today) || newEndDate.isBefore(today);
     }
 }

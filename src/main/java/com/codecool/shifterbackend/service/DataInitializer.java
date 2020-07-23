@@ -1,5 +1,6 @@
 package com.codecool.shifterbackend.service;
 
+import com.codecool.shifterbackend.controller.dto.ShiftAssignmentDetails;
 import com.codecool.shifterbackend.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -39,9 +40,15 @@ public class DataInitializer {
                     "Takács", "lenke@freemail.hu",
                     Set.of(Role.USER, Role.SUPERVISOR));
 
-            shiftService.assignShiftToUser(1L, 5L, "2020-07-20", "2020-07-23");
-            shiftService.assignShiftToUser(2L, 6L, "2020-07-20", "2020-07-23");
-            shiftService.assignShiftToUser(3L, 7L, "2020-07-20", "2020-07-23");
+            shiftService.assignShiftToUser(
+                    5L,
+                    new ShiftAssignmentDetails(1L, "2020-07-20", "2020-07-23"));
+            shiftService.assignShiftToUser(
+                    6L,
+                    new ShiftAssignmentDetails(2L, "2020-07-20", "2020-07-23"));
+            shiftService.assignShiftToUser(
+                    7L,
+                    new ShiftAssignmentDetails(3L, "2020-07-20", "2020-07-23"));
         };
     }
 }
