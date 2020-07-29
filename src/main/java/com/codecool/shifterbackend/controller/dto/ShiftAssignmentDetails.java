@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ShiftAssignmentDetails {
     private Long shiftId;
+    private String startTime;
+    private String endTime;
     private String startDate;
     private String endDate;
 }

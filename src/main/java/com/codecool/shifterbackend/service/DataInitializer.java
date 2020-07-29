@@ -42,13 +42,19 @@ public class DataInitializer {
 
             shiftService.assignShiftToUser(
                     5L,
-                    new ShiftAssignmentDetails(1L, "2020-07-20", "2020-07-23"));
+                    new ShiftAssignmentDetails(
+                            1L, "06:00:00", "14:00:00",
+                            "2020-08-10", "2020-08-14"));
             shiftService.assignShiftToUser(
                     6L,
-                    new ShiftAssignmentDetails(2L, "2020-07-20", "2020-07-23"));
+                    new ShiftAssignmentDetails(
+                            2L, "14:00:00", "22:00:00",
+                            "2020-08-10", "2020-08-14"));
             shiftService.assignShiftToUser(
                     7L,
-                    new ShiftAssignmentDetails(3L, "2020-07-20", "2020-07-23"));
+                    new ShiftAssignmentDetails(
+                            3L, "22:00:00", "06:00:00",
+                            "2020-08-10", "2020-08-14"));
         };
     }
 }

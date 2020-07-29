@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -56,12 +57,10 @@ public class ShiftService {
 
     public boolean shiftIsAlreadyAssigned(Long userId, ShiftAssignmentDetails shiftAssignmentDetails) {
         ShifterUser user = userRepository.getOne(userId);
-        Shift shift = shiftRepository.getOne(shiftAssignmentDetails.getShiftId());
         for (WorkerShift workerShift : user.getWorkerShifts()) {
-            if (workerShift.getName().equals(shift.getName()) ||
-                workerShift.getName().equals("Holiday") &&
-                dateInRange(workerShift, shiftAssignmentDetails.getStartDate()) ||
-                dateInRange(workerShift, shiftAssignmentDetails.getEndDate())
+            if (timeInRange(workerShift, shiftAssignmentDetails) &&
+                (dateInRange(workerShift, shiftAssignmentDetails.getStartDate()) ||
+                dateInRange(workerShift, shiftAssignmentDetails.getEndDate()))
             ) {
                 return true;
             }
@@ -74,6 +73,18 @@ public class ShiftService {
         LocalDate workShiftEndDate = LocalDate.parse(workerShift.getEndDate());
         LocalDate date = LocalDate.parse(dateToCheck);
         return !date.isBefore(workShiftStartDate) && !date.isAfter(workShiftEndDate);
+    }
+
+    private boolean timeInRange(WorkerShift workerShift, ShiftAssignmentDetails shiftAssignmentDetails){
+        LocalTime workShiftStartTime = LocalTime.parse(workerShift.getStartTime());
+        LocalTime workShiftEndTime = LocalTime.parse(workerShift.getEndTime());
+        LocalTime newStartTime = LocalTime.parse(shiftAssignmentDetails.getStartTime());
+        LocalTime newEndTime = LocalTime.parse(shiftAssignmentDetails.getEndTime());
+        if (newStartTime.equals(workShiftStartTime)){
+            return true;
+        }
+        return (newStartTime.isAfter(workShiftStartTime) && newStartTime.isBefore(workShiftEndTime)) ||
+                (newEndTime.isAfter(workShiftStartTime) && newEndTime.isBefore(workShiftEndTime));
     }
 
     public void addNewShiftToRepository(Shift shift) {
