@@ -33,12 +33,24 @@ public class ShifterUser {
     @JsonIgnore
     private Set<WorkerShift> workerShifts;
 
+    @OneToMany(mappedBy = "shifterUser")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @Singular
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
+    private Set<RequestShift> requestShifts;
+
     @ElementCollection
     @Singular
     private Set<Role> roles;
 
     public void addToShifts(WorkerShift workerShift) {
         this.workerShifts.add(workerShift);
+    }
+
+    public void addToRequestShifts(RequestShift requestShift) {
+        this.requestShifts.add(requestShift);
     }
 
     public static String generateColor(){

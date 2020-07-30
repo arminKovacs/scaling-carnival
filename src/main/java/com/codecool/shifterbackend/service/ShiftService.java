@@ -1,9 +1,11 @@
 package com.codecool.shifterbackend.service;
 
 import com.codecool.shifterbackend.controller.dto.ShiftAssignmentDetails;
+import com.codecool.shifterbackend.entity.RequestShift;
 import com.codecool.shifterbackend.entity.Shift;
 import com.codecool.shifterbackend.entity.WorkerShift;
 import com.codecool.shifterbackend.entity.ShifterUser;
+import com.codecool.shifterbackend.repository.RequestShiftRepository;
 import com.codecool.shifterbackend.repository.ShiftRepository;
 import com.codecool.shifterbackend.repository.WorkerShiftRepository;
 import com.codecool.shifterbackend.repository.UserRepository;
@@ -24,6 +26,9 @@ public class ShiftService {
 
     @Autowired
     private WorkerShiftRepository workerShiftRepository;
+
+    @Autowired
+    private RequestShiftRepository requestShiftRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -49,6 +54,23 @@ public class ShiftService {
                 shiftAssignmentDetails.getEndDate(), user);
         user.addToShifts(workerShift);
         workerShiftRepository.save(workerShift);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public void assignRequestShiftToUser(Long userId, ShiftAssignmentDetails shiftAssignmentDetails) {
+        ShifterUser user = userRepository.getOne(userId);
+        Shift shift = shiftRepository.getOne(shiftAssignmentDetails.getShiftId());
+        RequestShift requestShift = RequestShift.builder()
+                .shifterUser(user)
+                .name(shift.getName())
+                .startDate(shiftAssignmentDetails.getStartDate())
+                .endDate(shiftAssignmentDetails.getEndDate())
+                .startTime(shiftAssignmentDetails.getStartTime())
+                .endTime(shiftAssignmentDetails.getEndTime())
+                .build();
+        user.addToRequestShifts(requestShift);
+        requestShiftRepository.save(requestShift);
         userRepository.save(user);
     }
 
@@ -107,5 +129,9 @@ public class ShiftService {
 
     public void deleteWorkerShift(Long workerShiftId) {
         workerShiftRepository.deleteById(workerShiftId);
+    }
+
+    public List<RequestShift> getAllRequestShifts() {
+        return requestShiftRepository.findAll();
     }
 }

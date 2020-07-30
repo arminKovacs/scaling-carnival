@@ -54,6 +54,11 @@ public class ShiftController {
         return ResponseEntity.ok(shiftService.getAllWorkerShifts());
     }
 
+    @GetMapping("/shift-requests")
+    private ResponseEntity<Object> getRequestShifts(){
+        return ResponseEntity.ok(shiftService.getAllRequestShifts());
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
