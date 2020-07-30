@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -76,11 +77,20 @@ public class ShiftService {
     }
 
     private boolean timeInRange(WorkerShift workerShift, ShiftAssignmentDetails shiftAssignmentDetails){
-        LocalTime workShiftStartTime = LocalTime.parse(workerShift.getStartTime());
-        LocalTime workShiftEndTime = LocalTime.parse(workerShift.getEndTime());
-        LocalTime newStartTime = LocalTime.parse(shiftAssignmentDetails.getStartTime());
-        LocalTime newEndTime = LocalTime.parse(shiftAssignmentDetails.getEndTime());
-        if (newStartTime.equals(workShiftStartTime)){
+        LocalDateTime workShiftStartTime = LocalDateTime.now().with(LocalTime.parse(workerShift.getStartTime()));
+        LocalDateTime workShiftEndTime = LocalDateTime.now().with(LocalTime.parse(workerShift.getEndTime()));
+        LocalDateTime newStartTime = LocalDateTime.now().with(LocalTime.parse(shiftAssignmentDetails.getStartTime()));
+        LocalDateTime newEndTime = LocalDateTime.now().with(LocalTime.parse(shiftAssignmentDetails.getEndTime()));
+        if (workShiftEndTime.isBefore(workShiftStartTime)) {
+            workShiftEndTime = workShiftEndTime.plusDays(1L);
+        }
+        if (newEndTime.isBefore(newStartTime)) {
+            newEndTime = newEndTime.plusDays(1L);
+        }
+        System.out.println(workShiftStartTime + " - " + workShiftEndTime);
+        System.out.println(newStartTime + " - " + newEndTime);
+        System.out.println();
+        if(newStartTime.equals(workShiftStartTime) && newEndTime.equals(workShiftEndTime)){
             return true;
         }
         return (newStartTime.isAfter(workShiftStartTime) && newStartTime.isBefore(workShiftEndTime)) ||
