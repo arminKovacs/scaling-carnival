@@ -13,16 +13,7 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @Entity
 @SuperBuilder
-public class WorkerShift extends Shift {
-
-    public WorkerShift(Shift shift,String startDate, String endDate, ShifterUser shifterUser) {
-        this.name = shift.getName();
-        this.startTime = shift.getStartTime();
-        this.endTime = shift.getEndTime();
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.shifterUser = shifterUser;
-    }
+public class RequestShift extends Shift {
 
     private String startDate;
     private String endDate;
@@ -32,6 +23,5 @@ public class WorkerShift extends Shift {
     @ToString.Exclude
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private ShifterUser shifterUser;
-
 
 }

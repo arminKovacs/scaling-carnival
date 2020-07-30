@@ -87,9 +87,6 @@ public class ShiftService {
         if (newEndTime.isBefore(newStartTime)) {
             newEndTime = newEndTime.plusDays(1L);
         }
-        System.out.println(workShiftStartTime + " - " + workShiftEndTime);
-        System.out.println(newStartTime + " - " + newEndTime);
-        System.out.println();
         if(newStartTime.equals(workShiftStartTime) && newEndTime.equals(workShiftEndTime)){
             return true;
         }
