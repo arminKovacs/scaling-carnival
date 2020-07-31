@@ -134,4 +134,8 @@ public class ShiftService {
     public List<RequestShift> getAllRequestShifts() {
         return requestShiftRepository.findAll();
     }
+
+    public void deleteRequestShift(Long requestShiftId) {
+        requestShiftRepository.deleteById(requestShiftId);
+    }
 }

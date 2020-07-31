@@ -59,10 +59,16 @@ public class ShiftController {
         return ResponseEntity.ok(shiftService.getAllRequestShifts());
     }
 
-    @PostMapping("/shift-requests/{workerShiftId}")
-    private ResponseEntity<Object> sendShiftRequest(@PathVariable Long workerShiftId,
+    @PostMapping("/shift-requests/{workerId}")
+    private ResponseEntity<Object> sendShiftRequest(@PathVariable Long workerId,
                                                     @RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
-        shiftService.assignRequestShiftToUser(workerShiftId,shiftAssignmentDetails);
+        shiftService.assignRequestShiftToUser(workerId,shiftAssignmentDetails);
+        return ResponseEntity.ok(shiftService.getAllRequestShifts());
+    }
+
+    @DeleteMapping("/shift-requests/{requestShiftId}")
+    private ResponseEntity<Object> deleteRequestShift(@PathVariable Long requestShiftId){
+        shiftService.deleteRequestShift(requestShiftId);
         return ResponseEntity.ok(shiftService.getAllRequestShifts());
     }
 
