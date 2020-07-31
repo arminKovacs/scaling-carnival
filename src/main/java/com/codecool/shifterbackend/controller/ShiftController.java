@@ -59,6 +59,13 @@ public class ShiftController {
         return ResponseEntity.ok(shiftService.getAllRequestShifts());
     }
 
+    @PostMapping("/shift-requests/{workerShiftId}")
+    private ResponseEntity<Object> sendShiftRequest(@PathVariable Long workerShiftId,
+                                                    @RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
+        shiftService.assignRequestShiftToUser(workerShiftId,shiftAssignmentDetails);
+        return ResponseEntity.ok(shiftService.getAllRequestShifts());
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
