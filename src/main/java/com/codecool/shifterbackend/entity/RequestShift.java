@@ -17,6 +17,7 @@ public class RequestShift extends Shift {
 
     private String startDate;
     private String endDate;
+    private Long requestedShiftId;
 
     @ManyToOne
     @EqualsAndHashCode.Exclude

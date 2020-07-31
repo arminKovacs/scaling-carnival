@@ -64,6 +64,7 @@ public class ShiftService {
         RequestShift requestShift = RequestShift.builder()
                 .shifterUser(user)
                 .name(shift.getName())
+                .requestedShiftId(shiftAssignmentDetails.getShiftId())
                 .startDate(shiftAssignmentDetails.getStartDate())
                 .endDate(shiftAssignmentDetails.getEndDate())
                 .startTime(shiftAssignmentDetails.getStartTime())
