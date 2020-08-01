@@ -27,9 +27,9 @@ public class ShiftController {
     }
 
     @PostMapping("/shifts")
-    private ResponseEntity<String> createNewShift(@Valid @RequestBody Shift shift){
+    private ResponseEntity<Object> createNewShift(@Valid @RequestBody Shift shift){
         shiftService.addNewShiftToRepository(shift);
-        return ResponseEntity.ok("Shift created");
+        return ResponseEntity.ok(shiftService.getAllBaseShifts());
     }
 
     @GetMapping("/worker-shifts")

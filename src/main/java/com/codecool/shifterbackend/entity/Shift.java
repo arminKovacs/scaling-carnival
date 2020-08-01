@@ -19,11 +19,12 @@ public class Shift {
     @GeneratedValue
     protected Long id;
 
-    @NotBlank(message = "Shift name is missing!")
+    @NotBlank(message = "Shift name is missing")
     protected String name;
-    @NotBlank(message = "Please add a start time!")
+    @NotBlank(message = "Please add a start time")
     protected String startTime;
-    @NotBlank(message = "Please add an end time!")
+    @NotBlank(message = "Please add an end time")
     protected String endTime;
+    @NotBlank(message = "Please choose a color")
     protected String shiftColor;
 }
