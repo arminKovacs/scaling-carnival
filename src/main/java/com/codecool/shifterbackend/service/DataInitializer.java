@@ -19,10 +19,14 @@ public class DataInitializer {
     @Bean
     public CommandLineRunner init() {
         return args -> {
-            shiftService.registerNewShift("Morning", "06:00:00", "14:00:00");
-            shiftService.registerNewShift("Afternoon", "14:00:00", "22:00:00");
-            shiftService.registerNewShift("Evening", "22:00:00", "06:00:00");
-            shiftService.registerNewShift("Holiday", "00:00:00", "23:59:59");
+            shiftService.registerNewShift("Morning", "06:00:00",
+                                                            "14:00:00", "darkorange");
+            shiftService.registerNewShift("Afternoon", "14:00:00",
+                                                            "22:00:00", "dodgerblue");
+            shiftService.registerNewShift("Evening", "22:00:00",
+                                                            "06:00:00", "forestgreen");
+            shiftService.registerNewShift("Holiday", "00:00:00",
+                                                            "23:59:59", "red");
 
             userService.register("Taki bá", "taki", "István",
                     "Takács", "taki@freemail.hu", Set.of(Role.USER));

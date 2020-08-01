@@ -19,6 +19,7 @@ public class WorkerShift extends Shift {
         this.name = shift.getName();
         this.startTime = shift.getStartTime();
         this.endTime = shift.getEndTime();
+        this.shiftColor = shift.getShiftColor();
         this.startDate = startDate;
         this.endDate = endDate;
         this.shifterUser = shifterUser;

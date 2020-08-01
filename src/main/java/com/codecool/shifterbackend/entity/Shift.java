@@ -25,4 +25,5 @@ public class Shift {
     protected String startTime;
     @NotBlank(message = "Please add an end time!")
     protected String endTime;
+    protected String shiftColor;
 }

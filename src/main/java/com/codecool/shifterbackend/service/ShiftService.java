@@ -37,11 +37,12 @@ public class ShiftService {
         return shiftRepository.findAll();
     }
 
-    public void registerNewShift(String name, String startTime, String endTime) {
+    public void registerNewShift(String name, String startTime, String endTime, String color) {
         Shift newShift = Shift.builder()
                 .name(name)
                 .startTime(startTime)
                 .endTime(endTime)
+                .shiftColor(color)
                 .build();
         shiftRepository.save(newShift);
     }
