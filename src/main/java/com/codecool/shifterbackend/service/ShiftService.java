@@ -114,7 +114,9 @@ public class ShiftService {
             return true;
         }
         return (newStartTime.isAfter(workShiftStartTime) && newStartTime.isBefore(workShiftEndTime)) ||
-                (newEndTime.isAfter(workShiftStartTime) && newEndTime.isBefore(workShiftEndTime));
+                (newEndTime.isAfter(workShiftStartTime) && newEndTime.isBefore(workShiftEndTime)) &&
+                (workShiftStartTime.isAfter(newStartTime) && workShiftStartTime.isBefore(newEndTime)) ||
+                (workShiftEndTime.isAfter(newStartTime) && workShiftEndTime.isBefore(newEndTime));
     }
 
     public void addNewShiftToRepository(Shift shift) {
