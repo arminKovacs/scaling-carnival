@@ -1,5 +1,6 @@
 package com.codecool.shifterbackend.security;
 
+import com.codecool.shifterbackend.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,12 +56,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/logout").permitAll()
-                .antMatchers("/signup").permitAll()
-                .antMatchers(HttpMethod.GET,"/users").permitAll()
-                .antMatchers(HttpMethod.GET,"/shifts").permitAll()
-                .antMatchers(HttpMethod.GET,"/worker-shifts").permitAll()
-                .antMatchers(HttpMethod.GET,"/user/{userId:[\\d+]}").permitAll()
-                //.antMatchers(HttpMethod.DELETE,"/user/delete").hasRole("ADMIN")
+                .antMatchers("/users").hasRole("SUPERVISOR")
+                .antMatchers(HttpMethod.GET, "/shifts").authenticated()
+                .antMatchers(HttpMethod.POST, "/shifts").hasRole("SUPERVISOR")
+                .antMatchers(HttpMethod.GET, "/worker-shifts").authenticated()
+                .antMatchers(HttpMethod.POST, "/worker-shifts/{workerId:[\\d+]}").hasRole("SUPERVISOR")
+                .antMatchers(HttpMethod.DELETE, "/worker-shifts/{workerId:[\\d+]}").hasRole("SUPERVISOR")
+                .antMatchers(HttpMethod.GET, "/shift-requests").hasRole("SUPERVISOR")
+                .antMatchers(HttpMethod.GET, "/shift-requests/{workerId:[\\d+]}").authenticated()
+                .antMatchers(HttpMethod.POST, "/shift-requests/{workerId:[\\d+]}").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/shift-requests/{requestShiftId:[\\d+]}").hasRole("SUPERVISOR")
                 .anyRequest().permitAll();
     }
 

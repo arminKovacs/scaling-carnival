@@ -59,6 +59,11 @@ public class ShiftController {
         return ResponseEntity.ok(shiftService.getAllRequestShifts());
     }
 
+    @GetMapping("/shift-requests/{workerId}")
+    private ResponseEntity<Object> getWorkersRequests(@PathVariable Long workerId) {
+        return null;
+    }
+
     @PostMapping("/shift-requests/{workerId}")
     private ResponseEntity<Object> sendShiftRequest(@PathVariable Long workerId,
                                                     @RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {

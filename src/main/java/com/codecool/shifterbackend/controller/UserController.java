@@ -44,14 +44,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody UserCredentials shifterUser, HttpServletResponse response) {
+    public ResponseEntity<Object> login(@RequestBody UserCredentials credentials, HttpServletResponse response) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                shifterUser.getUsername(),
-                shifterUser.getPassword()
+                credentials.getUsername(),
+                credentials.getPassword()
         ));
         String jwtToken = jwtUtil.generateToken(authentication);
         addTokenToCookie(response, jwtToken);
-        return ResponseEntity.ok().body(userService.findByName(shifterUser.getUsername()));
+        return ResponseEntity.ok().body(userService.findByName(credentials.getUsername()));
     }
 
     private void addTokenToCookie(HttpServletResponse response, String token) {
