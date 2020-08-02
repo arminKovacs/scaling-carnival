@@ -17,11 +17,10 @@ public class ShifterUser {
     @Id
     @GeneratedValue
     private Long id;
-
     private String username;
+
     @JsonIgnore
     private String hashedPassword;
-    @JsonIgnore
     private String email;
     private String firstName;
     private String lastName;
@@ -44,7 +43,6 @@ public class ShifterUser {
 
     @ElementCollection
     @Singular
-    @JsonIgnore
     private Set<Role> roles;
 
     public void addToShifts(WorkerShift workerShift) {
