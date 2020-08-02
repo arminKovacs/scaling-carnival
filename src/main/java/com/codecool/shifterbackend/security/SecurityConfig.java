@@ -1,6 +1,5 @@
 package com.codecool.shifterbackend.security;
 
-import com.codecool.shifterbackend.model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -66,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/shift-requests/{workerId:[\\d+]}").authenticated()
                 .antMatchers(HttpMethod.POST, "/shift-requests/{workerId:[\\d+]}").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/shift-requests/{requestShiftId:[\\d+]}").hasRole("SUPERVISOR")
-                .anyRequest().permitAll();
+                .anyRequest().authenticated();
     }
 
     @Bean
