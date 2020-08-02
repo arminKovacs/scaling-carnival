@@ -37,14 +37,13 @@ public class ShiftController {
         return ResponseEntity.ok(shiftService.getAllWorkerShifts());
     }
 
-    @PostMapping("/worker-shifts/{workerId}")
-    private ResponseEntity<Object> assignShiftToWorker(@PathVariable Long workerId,
-                                                       @RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
+    @PostMapping("/worker-shifts")
+    private ResponseEntity<Object> assignShiftToWorker(@RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
         if (shiftService.newDateIsBeforeToday(shiftAssignmentDetails) ||
-            shiftService.shiftIsAlreadyAssigned(workerId, shiftAssignmentDetails)) {
+            shiftService.shiftIsAlreadyAssigned(shiftAssignmentDetails)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        shiftService.assignShiftToUser(workerId, shiftAssignmentDetails);
+        shiftService.assignShiftToUser(shiftAssignmentDetails);
         return ResponseEntity.ok(shiftService.getAllWorkerShifts());
     }
 
@@ -64,10 +63,9 @@ public class ShiftController {
         return null;
     }
 
-    @PostMapping("/shift-requests/{workerId}")
-    private ResponseEntity<Object> sendShiftRequest(@PathVariable Long workerId,
-                                                    @RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
-        shiftService.assignRequestShiftToUser(workerId,shiftAssignmentDetails);
+    @PostMapping("/shift-requests/")
+    private ResponseEntity<Object> sendShiftRequest(@RequestBody ShiftAssignmentDetails shiftAssignmentDetails) {
+        shiftService.assignRequestShiftToUser(shiftAssignmentDetails);
         return ResponseEntity.ok(shiftService.getAllRequestShifts());
     }
 

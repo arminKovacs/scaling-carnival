@@ -39,28 +39,26 @@ public class DataInitializer {
                     Set.of(Role.USER, Role.SUPERVISOR));
 
             shiftService.assignShiftToUser(
-                    6L,
                     new ShiftAssignmentDetails(
-                            1L, "06:00:00", "14:00:00",
+                            1L, 6L, "06:00:00", "14:00:00",
                             "2020-08-10", "2020-08-14"));
             shiftService.assignShiftToUser(
-                    7L,
                     new ShiftAssignmentDetails(
-                            2L, "14:00:00", "22:00:00",
+                            2L, 7L, "14:00:00", "22:00:00",
                             "2020-08-10", "2020-08-14"));
             shiftService.assignShiftToUser(
-                    8L,
+
                     new ShiftAssignmentDetails(
-                            3L, "22:00:00", "06:00:00",
+                            3L, 8L, "22:00:00", "06:00:00",
                             "2020-08-10", "2020-08-14"));
 
-            shiftService.assignRequestShiftToUser(6L,
+            shiftService.assignRequestShiftToUser(
                     new ShiftAssignmentDetails(
-                            1L, "06:00:00", "14:00:00",
+                            1L, 6L, "06:00:00", "14:00:00",
                             "2020-09-10", "2020-09-14"));
-            shiftService.assignRequestShiftToUser(7L,
+            shiftService.assignRequestShiftToUser(
                     new ShiftAssignmentDetails(
-                            4L, "00:00:00", "23:59:59",
+                            4L, 7L, "00:00:00", "23:59:59",
                             "2020-09-10", "2020-09-14"));
         };
     }

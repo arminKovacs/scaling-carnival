@@ -48,8 +48,8 @@ public class ShiftService {
     }
 
     @Transactional
-    public void assignShiftToUser(Long userId, ShiftAssignmentDetails shiftAssignmentDetails) {
-        ShifterUser user = userRepository.getOne(userId);
+    public void assignShiftToUser(ShiftAssignmentDetails shiftAssignmentDetails) {
+        ShifterUser user = userRepository.getOne(shiftAssignmentDetails.getShifterUserId());
         Shift shift = shiftRepository.getOne(shiftAssignmentDetails.getShiftId());
         WorkerShift workerShift = new WorkerShift(shift, shiftAssignmentDetails.getStartDate(),
                 shiftAssignmentDetails.getEndDate(), user);
@@ -59,8 +59,8 @@ public class ShiftService {
     }
 
     @Transactional
-    public void assignRequestShiftToUser(Long userId, ShiftAssignmentDetails shiftAssignmentDetails) {
-        ShifterUser user = userRepository.getOne(userId);
+    public void assignRequestShiftToUser(ShiftAssignmentDetails shiftAssignmentDetails) {
+        ShifterUser user = userRepository.getOne(shiftAssignmentDetails.getShifterUserId());
         Shift shift = shiftRepository.getOne(shiftAssignmentDetails.getShiftId());
         RequestShift requestShift = RequestShift.builder()
                 .shifterUser(user)
@@ -81,8 +81,8 @@ public class ShiftService {
         return workerShiftRepository.findAll();
     }
 
-    public boolean shiftIsAlreadyAssigned(Long userId, ShiftAssignmentDetails shiftAssignmentDetails) {
-        ShifterUser user = userRepository.getOne(userId);
+    public boolean shiftIsAlreadyAssigned(ShiftAssignmentDetails shiftAssignmentDetails) {
+        ShifterUser user = userRepository.getOne(shiftAssignmentDetails.getShifterUserId());
         for (WorkerShift workerShift : user.getWorkerShifts()) {
             if (timeInRange(workerShift, shiftAssignmentDetails) &&
                 (dateInRange(workerShift, shiftAssignmentDetails.getStartDate()) ||
