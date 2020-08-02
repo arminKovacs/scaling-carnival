@@ -2,14 +2,12 @@ package com.codecool.shifterbackend.controller;
 
 import com.codecool.shifterbackend.controller.dto.UserCredentials;
 import com.codecool.shifterbackend.entity.ShifterUser;
-import com.codecool.shifterbackend.model.Role;
 import com.codecool.shifterbackend.security.JwtUtil;
 import com.codecool.shifterbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
 import java.util.List;
-import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -30,11 +27,11 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtUtil jwtUtil;
-    public static final String TOKEN = "token";
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private JwtUtil jwtUtil;
+    public static final String TOKEN = "token";
 
     @GetMapping("/users")
     private List<ShifterUser> getAllUsers() {
@@ -47,22 +44,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserCredentials shifterUser, HttpServletResponse response) {
+    public ResponseEntity<Object> login(@RequestBody UserCredentials shifterUser, HttpServletResponse response) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 shifterUser.getUsername(),
                 shifterUser.getPassword()
         ));
         String jwtToken = jwtUtil.generateToken(authentication);
         addTokenToCookie(response, jwtToken);
-        return ResponseEntity.ok().body(shifterUser.getUsername());
-    }
-
-    @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody UserCredentials newUser, HttpServletResponse response) {
-        userService.register(newUser.getUsername(), newUser.getPassword(), newUser.getFirstName(),
-                newUser.getLastName(), newUser.getEmail(), Set.of(Role.USER));
-        login(newUser, response);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser.getUsername());
+        return ResponseEntity.ok().body(userService.findByName(shifterUser.getUsername()));
     }
 
     private void addTokenToCookie(HttpServletResponse response, String token) {
